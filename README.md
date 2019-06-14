@@ -7,16 +7,16 @@
 * [Composer](https://getcomposer.org)
 
 ## Installation
-* Install dependencies
+- Install dependencies
 `composer install`
-* [OMDB](http://www.omdbapi.com/) API key
+- [OMDB](http://www.omdbapi.com/) API key
 ```php
 // index.php
 $omdbKey = '';
 ```
-* DB config
+- DB config
 ```php
-// /models/Mapper/Db.php
+// models/Mapper/Db.php
 $db = [
     'driver' => 'pdo_mysql',
     'user' => 'test',
@@ -24,7 +24,7 @@ $db = [
     'host' => '127.0.0.1',
     'port' => '3306',
     'dbname' => 'omdb',
-        ];
+];
 ```
-* Create DB tables
+- Create DB schema
 `vendor/bin/doctrine orm:schema-tool:update --force --dump-sql`
