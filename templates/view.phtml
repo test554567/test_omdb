@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <title>OMDB Test</title>
+    <link href="templates/css/styles.css" rel="stylesheet">
+</head>
+<body class="text-center">
+<form class="form-search" action="/?action=search">
+    <h1 class="h3 mb-3 font-weight-normal">Movie Search</h1>
+    <?php if(isset($errorMessage)):?>
+        <div class="alert alert-warning small" role="alert">
+            <?php echo $errorMessage;?>
+        </div>
+    <?php endif;?>
+    <label for="title" class="sr-only">Search</label>
+    <input type="title" id="title" name="title" class="form-control" placeholder="Movie title" required autofocus>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Go</button>
+</form>
+<div class="link">
+    <?php if(!isset($favourites)):?>
+        <a href="/?action=list">My favourites</a>
+    <?php endif;?>
+</div>
+<div class="movies">
+    <div class="container">
+    <?php if(isset($movie) && $movie):?>
+        <div class="row">
+            <div class="col-4">
+                <img class="poster" src="<?=$movie->getPoster()?>"/>
+            </div>
+            <div class="col-8 text-left">
+                <h2 class="h3 font-weight-normal"><?=$movie->getTitle()?></h2>
+                <p><?=$movie->getPlot();?></p>
+                <p>Year: <?=$movie->getYear();?></p>
+                <form action="/?action=add" class="form-fav" method="post">
+                    <input name="comment" type="comment" id="comment" class="form-control" placeholder="My comment" value="<?= $favouriteMovie ? $favouriteMovie->getComment() : '';?>"/>
+                    <input name="rating" type="rating" id="rating" maxlength="4" class="form-control" placeholder="My rating" value="<?= $favouriteMovie ? $favouriteMovie->getRating() : '';?>"/>
+                    <input type="hidden" name="title" value="<?=$movie->getTitle()?>"/>
+                    <input type="hidden" name="imdbId" value="<?=$movie->getImdbId()?>"/>
+                    <input type="hidden" name="year" value="<?=$movie->getYear()?>"/>
+                    <input type="hidden" name="poster" value="<?=$movie->getPoster()?>"/>
+                    <input type="hidden" name="plot" value="<?=$movie->getPlot()?>"/>
+                    <button class="btn btn-primary" type="submit"><?= $favouriteMovie ? 'Update': 'Add to favourites'?></button>
+                </form>
+                <?php if($favouriteMovie):?>
+                    <?php //TODO add delete confirmation?>
+                    <form class="form-fav text-right" action="/?action=remove" method="post">
+                        <input type="hidden" name="id" value="<?=$favouriteMovie->getMovie()->getId()?>"/>
+                        <button class="btn btn-sm" type="submit">Remove</button>
+                    </form>
+                <?php endif;?>
+            </div>
+        </div>
+    <?php endif;?>
+    <?php if(isset($favourites)):?>
+        <?php foreach($favourites as $favourite):?>
+            <div class="row">
+                <div class="col-4">
+                    <img class="poster" src="<?=$favourite->getMovie()->getPoster()?>"/>
+                </div>
+                <div class="col-8 text-left">
+                    <h5 class="font-weight-normal">
+                        <a href="/?title=<?=urlencode($favourite->getMovie()->getTitle())?>">
+                            <?=$favourite->getMovie()->getTitle()?>
+                        </a>
+                    </h5>
+                    <p><?=$favourite->getMovie()->getPlot();?></p>
+                    <p>Year: <?=$favourite->getMovie()->getYear();?></p>
+                    <?php if($favourite->getComment()):?>
+                    <p>My comment: <?=$favourite->getComment()?></p>
+                    <?php endif;?>
+                    <?php if($favourite->getRating()):?>
+                    <p>My Rating: <?=$favourite->getRating()?></p>
+                    <?php endif;?>
+                    <form class="form-fav" action="/?action=remove" method="post">
+                        <input type="hidden" name="id" value="<?=$favourite->getMovie()->getId()?>"/>
+                        <button class="btn btn-primary btn-sm" type="submit">Remove</button>
+                    </form>
+                    <hr/>
+                </div>
+            </div>
+        <?php endforeach;?>
+    <?php endif;?>
+    </div>
+</div>
+</body>
+</html>

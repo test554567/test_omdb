@@ -1,0 +1,46 @@
+html,
+body {
+    height: 100%;
+}
+body {
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+.form-search {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+.form-search .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-fav .form-control {
+    height: auto;
+    padding: 10px;
+    font-size: 14px;
+}
+.form-fav input[type="comment"] {
+    margin-bottom: 5px;
+}
+.form-fav input[type="rating"] {
+    margin-bottom: 10px;
+}
+.form-search input[type="title"] {
+    margin-bottom: 10px;
+}
+.movies {
+    max-width: 500px;
+    width: 100%;
+    padding: 15px;
+    margin: auto;
+}
+.poster {
+    width:100%;
+}
